@@ -1,0 +1,229 @@
+---
+// lunatuna.astro
+// Esta es una ruta especial y secreta protegida por contraseña y criptografía AES-GCM pura del lado del cliente.
+// El contenido real nunca está expuesto en código fuente a menos que tengas la contraseña correcta.
+---
+
+<!doctype html>
+<html lang="es">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>#lunatuna - Acceso Restringido</title>
+		<meta name="robots" content="noindex, nofollow" />
+	</head>
+	<body class="bg-slate-900 min-h-screen text-slate-100 font-sans selection:bg-blue-500 selection:text-white">
+		<main class="w-full min-h-screen flex items-center justify-center p-4 relative overflow-hidden">
+			<!-- Fondo decorativo sutil -->
+			<div class="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+				<div class="absolute -top-[30%] -left-[10%] w-[70%] h-[70%] rounded-full bg-blue-900/20 blur-[120px]"></div>
+				<div class="absolute -bottom-[30%] -right-[10%] w-[70%] h-[70%] rounded-full bg-indigo-900/20 blur-[120px]"></div>
+			</div>
+
+			<!-- Box de Autenticación -->
+			<div id="auth-box" class="relative z-10 w-full max-w-md bg-slate-800/80 backdrop-blur-xl border border-slate-700/50 p-8 rounded-2xl shadow-2xl transition-all duration-500">
+				<div class="text-center mb-8">
+					<div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-blue-500/10 text-blue-400 mb-4 ring-1 ring-blue-500/30">
+						<svg class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8V7a4 4 0 00-8 0v4h8z" />
+						</svg>
+					</div>
+					<h1 class="text-2xl font-bold tracking-tight text-white mb-2">Admin</h1>
+					<p class="text-sm text-slate-400">Ingresa contraseña.</p>
+				</div>
+
+				<form id="auth-form" class="space-y-6" onsubmit="event.preventDefault();">
+					<div>
+						<label for="password" class="sr-only">Contraseña</label>
+						<input 
+							type="password" 
+							id="password" 
+							required
+							autofocus
+							class="w-full bg-slate-900/50 border border-slate-600 rounded-xl px-4 py-3.5 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+							placeholder="Introduce tu contraseña..." 
+						/>
+					</div>
+
+					<div id="error-msg" class="hidden text-red-400 text-sm font-medium text-center bg-red-900/20 py-2 px-3 rounded-lg border border-red-900/50">
+						Contraseña incorrecta o datos corruptos.
+					</div>
+
+					<button 
+						type="submit" 
+						class="w-full flex justify-center py-3.5 px-4 border border-transparent rounded-xl shadow-sm text-sm font-bold text-white bg-blue-600 hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 focus:ring-offset-slate-900 transition-all hover:shadow-[0_0_15px_rgba(37,99,235,0.5)] transform hover:-translate-y-0.5"
+					>
+						Descifrar Contenido
+					</button>
+				</form>
+				
+				<div class="mt-6 text-center">
+					<a href="/" class="text-xs text-slate-500 hover:text-slate-300 transition-colors">Volver a sitio público</a>
+				</div>
+			</div>
+
+			<!-- Contenedor del contenido descifrado -->
+			<div id="secret-content" class="relative z-10 w-full hidden opacity-0 transition-opacity duration-1000">
+				<!-- Aquí se insertará el HTML secreto tras descifrarlo -->
+			</div>
+		</main>
+
+		<script>
+			// ==========================================
+			// CARGA ÚTIL CIFRADA (Ciphertext Base64)
+			// Generada por scripts/encrypt-secret.js
+			// ==========================================
+			const encryptedBase64Payload = "r4PgCOyUWnYmBzcDPqW0/5UMW/uvp8YJ+fB6dt4hke9Y5j4HRyQCFPlB0uggruK2xF8FjE+hNYWjvfMJiVu6Q5eoykVzlO0QOvi6Abt9dS18o837UlxutYQwiVRMLgXB8QS+GBxuz29R2HNJjxPQta2IDzzPzXFnGKXL35j9pB24MrX4LiI7AC3Jq+4JCrMXOz9B5+jYljGkbKEHX2HL2WQYLO2W7aTUuWhzVGYeyDCoI0Tb3RUd0THZJhG7Lh4qtvcwu2BYYsVFOgRHZDEL6TVi/Ba589t3YFDbxu7ybkTNc0D0q3uIHzFBnIKroovN5fM5WYQ6uX1WCOgyufXVNM1qJTPGvw0rrHmsPqQ1gLQm5cIN14B96kj2MFICb22TGBX7O11/wtWd1HA59EERtR0sDQ1uKJn1d2ENgZIB8tny23ZlSEQ/2c1T3vBC8uF0ttqZZrX0DZ5PGmRoc72RF80QafUUfyrM8WV6IZjonDsFsmGx+9TBfqj24apeOak0Kxd3zYBP1hVaCvRJVVobIva2MIOglSPdNj/CZEFhfxlrUWcxgbQAZAafo+ioLU0R5k6o9lo64GsjPsKtdwGvfN6KEnK2EYNHRKgVuVucjaX88vogrepvulgry7ICOPbBihS+UzYEViJwF+pJ2Sxca4pmgLI/8HWApNu/H/DIMUj8TpQ1kUmWpoDTctgR7Zb6lT2MbK0Xz4w2fIVD9vaMXwYtIE95YPXjrQZ4aKCclEonNbzqW0v7AUbKgkfrUWZ/73efnbWamRyXQQhK5lzhjzeq5tlK46pIAZ0xrFHGhFw/svH9M6TkPl0lsXXBUhOpZ5xGu4DrorFBMOiw3uzwr9fT3S0fzbyugtVZLaMv0YfS4XkfHI4S3W/VSQRRjl/G2JoLOzJLJrT0+W+OJ8r8+kqWVtReLPw1FP5cClUpvcGhZA7/tu/Tsfko42v1nmHfbwdmBpqUSM6cmJjiGAB744ZPWEKtCwdZx9rNKbfSH7+cMAAloBstmqhjjxL0krKLy/vFJyn8UXicLJn9R2XiuFPtB9hIxV7EU8oFuhpvnsLbs8V2N2QkqUvsKynAg7g2rqq42ogK+0GumT3YRRsPZyrM7vxtblHm393OFw95FfCF/SWUbYbO3R2Qworm7GwYChMnhEN4X8EWN5zMK6vH9ctK1HpVwFXRsmwum4GYxsjeXnMfSHjuDD6OY9szYxVx7xA6P0KKV/Z8yB4LPihazfSkCaVHaLKgdV5lxafyzcq2LI1f8TPhAsjh/PUuFk30MkJb7/yIOW2EYVpPgabqQeKR48MepOnkOAm4E76q26dzrA+MAW1rlDQ473cibZrbfUP7U0AV+JtDgIpo4nKsrNRnZ9MYfkCZGl53CCXE9rKDRSFEXfrqM+zsE5E1CbIidOXMtCi743siZ2bU1oHLZrtzzH07VG7hEZ8CYTfVVrAdoM6VA/UeUM8gm3W4q9zlZOCOvCzzCnwG8pIkibXHQFABUHdQRkmzCsG+FYg1Pm5+Y15hfIz1K2IfgO+C1/fh8w==";
+
+			// ==========================================
+			// LÓGICA DE DESCIFRADO (Web Crypto API)
+			// ==========================================
+			
+			// Convierte un Base64 a un ArrayBuffer
+			function base64ToArrayBuffer(base64: string) {
+				const binaryString = window.atob(base64);
+				const bytes = new Uint8Array(binaryString.length);
+				for (let i = 0; i < binaryString.length; i++) {
+					bytes[i] = binaryString.charCodeAt(i);
+				}
+				return bytes.buffer;
+			}
+
+			async function decryptPayload(password: string, base64Data: string) {
+				try {
+					const dataBuffer = base64ToArrayBuffer(base64Data);
+					
+					// El formato generado por nuestro script Node.js es:
+					// [Salt(16)] + [IV(12)] + [AuthTag(16)] + [Ciphertext(resto)]
+					const salt = dataBuffer.slice(0, 16);
+					const iv = dataBuffer.slice(16, 28);
+					const tag = dataBuffer.slice(28, 44);
+					const encrypted = dataBuffer.slice(44);
+
+					// Web Crypto expects Ciphertext + Tag concatenated for AES-GCM
+					const ciphertextWithTag = new Uint8Array(encrypted.byteLength + tag.byteLength);
+					ciphertextWithTag.set(new Uint8Array(encrypted), 0);
+					ciphertextWithTag.set(new Uint8Array(tag), encrypted.byteLength);
+
+					const enc = new TextEncoder();
+					const passwordBuffer = enc.encode(password);
+
+					// 1. Importar la contraseña como clave base (material crudo)
+					const keyMaterial = await crypto.subtle.importKey(
+						"raw",
+						passwordBuffer,
+						{ name: "PBKDF2" },
+						false,
+						["deriveKey"]
+					);
+
+					// 2. Derivar la llave usando los mismos parámetros exactos de Node.js
+					const key = await crypto.subtle.deriveKey(
+						{
+							name: "PBKDF2",
+							salt: salt,
+							iterations: 100000,
+							hash: "SHA-256"
+						},
+						keyMaterial,
+						{ name: "AES-GCM", length: 256 },
+						false,
+						["decrypt"]
+					);
+
+					// 3. Descifrar los datos
+					const decryptedBuffer = await crypto.subtle.decrypt(
+						{
+							name: "AES-GCM",
+							iv: iv
+						},
+						key,
+						ciphertextWithTag
+					);
+
+					const dec = new TextDecoder("utf-8");
+					return dec.decode(decryptedBuffer);
+
+				} catch (error) {
+					console.error("Fallo de descifrado:", error);
+					return null; // Contraseña incorrecta
+				}
+			}
+
+			// Manejo de Interfaz (UI)
+			const form = document.getElementById('auth-form') as HTMLFormElement;
+			const passInput = document.getElementById('password') as HTMLInputElement;
+			const errorMsg = document.getElementById('error-msg') as HTMLDivElement;
+			const authBox = document.getElementById('auth-box') as HTMLDivElement;
+			const secretContent = document.getElementById('secret-content') as HTMLDivElement;
+
+			form?.addEventListener('submit', async (e) => {
+				e.preventDefault();
+				errorMsg?.classList.add('hidden');
+				
+				const btn = form.querySelector('button') as HTMLButtonElement;
+				const origText = btn?.innerText || '';
+				if (btn) {
+					btn.innerText = "Verificando...";
+					btn.disabled = true;
+				}
+
+				// Intentamos descifrar
+				const html = await decryptPayload(passInput.value, encryptedBase64Payload);
+
+				if (btn) {
+					btn.innerText = origText;
+					btn.disabled = false;
+				}
+
+				if (html) {
+					// Éxito: Ocultar caja fuerte y mostrar contenido
+					if (authBox) {
+						authBox.style.opacity = '0';
+						authBox.style.transform = 'scale(0.95)';
+					}
+					
+					setTimeout(() => {
+						if (authBox) authBox.classList.add('hidden');
+						document.body.classList.remove('bg-slate-900'); // Quitar fondo oscuro
+						document.body.classList.add('bg-slate-50', 'text-slate-900'); // Fondo claro para contenido
+						
+						if (secretContent) {
+							secretContent.innerHTML = html;
+							secretContent.classList.remove('hidden');
+							
+							// Animación de entrada suave
+							requestAnimationFrame(() => {
+								secretContent.classList.remove('opacity-0');
+								secretContent.classList.add('opacity-100');
+							});
+						}
+					}, 500);
+					
+				} else {
+					// Fallo
+					if (errorMsg) errorMsg.classList.remove('hidden');
+					// Agitar caja (animación de error)
+					if (authBox) authBox.classList.add('animate-shake');
+					passInput.value = '';
+					passInput.focus();
+					setTimeout(() => {
+						if (authBox) authBox.classList.remove('animate-shake');
+					}, 500);
+				}
+			});
+		</script>
+
+		<!-- Pequeña animación de error para la caja -->
+		<style>
+			@keyframes shake {
+				0%, 100% { transform: translateX(0); }
+				10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+				20%, 40%, 60%, 80% { transform: translateX(5px); }
+			}
+			.animate-shake {
+				animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both;
+			}
+		</style>
+	</body>
+</html>
