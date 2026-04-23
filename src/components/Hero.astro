@@ -4,9 +4,12 @@ const phoneNumber = "5000 000 0000";
 const numericPhone = phoneNumber.replace(/[^0-9]/g, '');
 ---
 
-<section id="home" class="py-20 bg-gradient-to-b from-white to-gray-50 relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden">
-  <!-- Background Pattern or Image Placeholder -->
-  <div class="absolute inset-0 z-0 bg-gradient-to-br from-blue-50 via-blue-100/50 to-white"></div>
+<section id="home" class="fade-in-section py-20 bg-gradient-to-b from-white to-gray-50 relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden">
+  <!-- Background Pattern with animated gradient -->
+  <div class="absolute inset-0 z-0 bg-gradient-to-br from-blue-50 via-blue-100/50 to-white animate-gradient"></div>
+  <!-- Animated floating shapes -->
+  <div class="absolute top-20 left-10 w-72 h-72 bg-blue-200/30 rounded-full blur-3xl animate-float-slow"></div>
+  <div class="absolute bottom-20 right-10 w-96 h-96 bg-blue-300/20 rounded-full blur-3xl animate-float-medium"></div>
 
   <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center lg:text-left flex flex-col lg:flex-row items-center">
     
@@ -50,7 +53,7 @@ const numericPhone = phoneNumber.replace(/[^0-9]/g, '');
 
     <!-- Right Side Image (Hidden on small mobile, visible on md+) -->
     <div class="hidden lg:block w-full lg:w-1/2 mt-12 lg:mt-0 relative">
-      <div class="aspect-w-4 aspect-h-3 rounded-2xl overflow-hidden shadow-2xl">
+      <div class="aspect-w-4 aspect-h-3 rounded-2xl overflow-hidden shadow-2xl animate-float">
         <!-- Replace src with an actual hero image -->
         <img src="/ac-unit.png" alt="AC Unit" class="w-full h-96 object-cover" />
       </div>

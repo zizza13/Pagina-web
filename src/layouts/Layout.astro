@@ -16,8 +16,11 @@ const { title, description = "Reliable HVAC Services. Installation, Repair, and 
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="generator" content={Astro.generator} />
 		<title>{title}</title>
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 	</head>
-	<body class="font-sans antialiased text-slate-800 bg-white selection:bg-blue-100 selection:text-blue-900">
+	<body class="font-sans antialiased text-slate-800 bg-white selection:bg-blue-100 selection:text-blue-900" style="font-family: 'Inter', sans-serif;">
 		<slot />
 
 		<!-- Floating Social Media Button -->
@@ -61,6 +64,25 @@ const { title, description = "Reliable HVAC Services. Installation, Repair, and 
 					icon.style.transform = 'rotate(0deg)';
 				}
 			});
+
+			// Intersection Observer for scroll animations
+			const observerOptions = {
+				root: null,
+				rootMargin: '0px',
+				threshold: 0.1
+			};
+
+			const observer = new IntersectionObserver((entries) => {
+				entries.forEach(entry => {
+					if (entry.isIntersecting) {
+						entry.target.classList.add('is-visible');
+					}
+				});
+			}, observerOptions);
+
+			document.querySelectorAll('.fade-in-section').forEach(section => {
+				observer.observe(section);
+			});
 		</script>
 	</body>
 </html>
@@ -73,5 +95,71 @@ const { title, description = "Reliable HVAC Services. Installation, Repair, and 
 	/* Custom smooth scrolling offset for fixed header */
 	html {
 		scroll-padding-top: 5rem;
+	}
+
+	/* Scroll animations */
+	.fade-in-section {
+		opacity: 0;
+		transform: translateY(30px);
+		transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+	}
+
+	.fade-in-section.is-visible {
+		opacity: 1;
+		transform: translateY(0);
+	}
+
+	/* Staggered animation for children */
+	.fade-in-section > * {
+		opacity: 0;
+		transform: translateY(20px);
+		transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+	}
+
+	.fade-in-section.is-visible > *:nth-child(1) { transition-delay: 0.1s; }
+	.fade-in-section.is-visible > *:nth-child(2) { transition-delay: 0.2s; }
+	.fade-in-section.is-visible > *:nth-child(3) { transition-delay: 0.3s; }
+	.fade-in-section.is-visible > *:nth-child(4) { transition-delay: 0.4s; }
+	.fade-in-section.is-visible > * {
+		opacity: 1;
+		transform: translateY(0);
+	}
+
+	/* Custom animations */
+	@keyframes float {
+		0%, 100% { transform: translateY(0px); }
+		50% { transform: translateY(-20px); }
+	}
+
+	@keyframes float-slow {
+		0%, 100% { transform: translateY(0px) rotate(0deg); }
+		50% { transform: translateY(-30px) rotate(5deg); }
+	}
+
+	@keyframes float-medium {
+		0%, 100% { transform: translateY(0px) rotate(0deg); }
+		50% { transform: translateY(-40px) rotate(-5deg); }
+	}
+
+	@keyframes gradient {
+		0%, 100% { background-position: 0% 50%; }
+		50% { background-position: 100% 50%; }
+	}
+
+	.animate-float {
+		animation: float 6s ease-in-out infinite;
+	}
+
+	.animate-float-slow {
+		animation: float-slow 8s ease-in-out infinite;
+	}
+
+	.animate-float-medium {
+		animation: float-medium 10s ease-in-out infinite;
+	}
+
+	.animate-gradient {
+		background-size: 200% 200%;
+		animation: gradient 15s ease infinite;
 	}
 </style>
