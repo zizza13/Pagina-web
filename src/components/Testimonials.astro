@@ -96,7 +96,9 @@ const testimonials = [
   const totalSlides = 3;
 
   function updateCarousel() {
-    carousel.style.transform = `translateX(-${currentIndex * 100}%)`;
+    if (carousel) {
+      carousel.style.transform = `translateX(-${currentIndex * 100}%)`;
+    }
     dots.forEach((dot, index) => {
       if (index === currentIndex) {
         dot.classList.add('bg-blue-600', 'w-8');

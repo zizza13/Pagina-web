@@ -66,13 +66,13 @@ const { title, description = "Reliable HVAC Services. Installation, Repair, and 
 			toggle?.addEventListener('click', () => {
 				isOpen = !isOpen;
 				if (isOpen) {
-					menu.classList.remove('opacity-0', 'scale-0');
-					menu.classList.add('opacity-100', 'scale-100');
-					icon.style.transform = 'rotate(45deg)';
+					menu?.classList.remove('opacity-0', 'scale-0');
+					menu?.classList.add('opacity-100', 'scale-100');
+					if (icon) icon.style.transform = 'rotate(45deg)';
 				} else {
-					menu.classList.add('opacity-0', 'scale-0');
-					menu.classList.remove('opacity-100', 'scale-100');
-					icon.style.transform = 'rotate(0deg)';
+					menu?.classList.add('opacity-0', 'scale-0');
+					menu?.classList.remove('opacity-100', 'scale-100');
+					if (icon) icon.style.transform = 'rotate(0deg)';
 				}
 			});
 
