@@ -2,7 +2,7 @@
 // About_us.astro
 ---
 
-<section id="about_us" class="py-20 bg-white">
+<section id="about_us" class="py-20 bg-gradient-to-b from-gray-50 to-white">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="lg:grid lg:grid-cols-2 lg:gap-16 items-center">
       
@@ -52,18 +52,11 @@
       <!-- Image Side Placeholder -->
       <div class="relative">
         <!-- Main Image Placeholder (E.g., A technician smiling) -->
-        <div class="rounded-2xl shadow-xl overflow-hidden bg-slate-200 aspect-w-4 aspect-h-5 flex items-center justify-center">
-            <div class="text-center p-8">
-              <svg class="mx-auto h-16 w-16 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-              </svg>
-              <p class="mt-2 text-slate-500 font-medium font-sans">Technician Image</p>
-            </div>
-        </div>
+        <img src="/about-us.png" alt="Technician" class="rounded-2xl shadow-xl w-full object-cover" />
 
         <!-- Floating Badge -->
         <div class="absolute -bottom-6 -right-6 lg:-left-6 lg:right-auto bg-blue-600 rounded-xl p-6 shadow-xl text-white transform hover:scale-105 transition-transform">
-          <p class="text-4xl font-extrabold">15+</p>
+          <p class="text-4xl font-extrabold">30+</p>
           <p class="text-blue-100 font-medium mt-1">Years Experience</p>
         </div>
       </div>

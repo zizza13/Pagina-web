@@ -4,12 +4,9 @@ const phoneNumber = "5000 000 0000";
 const numericPhone = phoneNumber.replace(/[^0-9]/g, '');
 ---
 
-<section id="home" class="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden">
+<section id="home" class="py-20 bg-gradient-to-b from-white to-gray-50 relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden">
   <!-- Background Pattern or Image Placeholder -->
-  <div class="absolute inset-0 z-0 bg-blue-50">
-    <!-- Replace this div with an actual background image using: style="background-image: url('my-image.jpg'); background-size: cover; background-position: center;" -->
-    <div class="absolute inset-0 bg-gradient-to-br from-blue-100 to-white opacity-90"></div>
-  </div>
+  <div class="absolute inset-0 z-0 bg-gradient-to-br from-blue-50 via-blue-100/50 to-white"></div>
 
   <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center lg:text-left flex flex-col lg:flex-row items-center">
     
@@ -55,9 +52,7 @@ const numericPhone = phoneNumber.replace(/[^0-9]/g, '');
     <div class="hidden lg:block w-full lg:w-1/2 mt-12 lg:mt-0 relative">
       <div class="aspect-w-4 aspect-h-3 rounded-2xl overflow-hidden shadow-2xl">
         <!-- Replace src with an actual hero image -->
-        <div class="w-full h-96 bg-slate-200 flex items-center justify-center">
-          <span class="text-slate-400">AC Unit Image Placeholder</span>
-        </div>
+        <img src="/ac-unit.png" alt="AC Unit" class="w-full h-96 object-cover" />
       </div>
       
       <!-- Decorative element -->
