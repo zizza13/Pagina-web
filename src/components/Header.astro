@@ -43,14 +43,14 @@ const phoneNumber = "5000 000 0000";
   </div>
 
   <!-- Mobile Menu -->
-  <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-100">
-    <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-      <a href="#home" class="mobile-link block px-3 py-2 rounded-md text-base font-medium text-slate-700 hover:text-blue-600 hover:bg-blue-50">Home</a>
-      <a href="#services" class="mobile-link block px-3 py-2 rounded-md text-base font-medium text-slate-700 hover:text-blue-600 hover:bg-blue-50">Services</a>
-      <a href="#about_us" class="mobile-link block px-3 py-2 rounded-md text-base font-medium text-slate-700 hover:text-blue-600 hover:bg-blue-50">About Us</a>
-      <a href="#contact" class="mobile-link block px-3 py-2 rounded-md text-base font-medium text-slate-700 hover:text-blue-600 hover:bg-blue-50">Contact</a>
+  <div id="mobile-menu" class="md:hidden bg-white border-t border-gray-100 overflow-hidden transition-all duration-300 max-h-0 opacity-0">
+    <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 text-center">
+      <a href="#home" class="mobile-link block px-3 py-2 rounded-md text-base font-medium text-slate-700 hover:text-blue-600 hover:bg-blue-50 transition-colors">Home</a>
+      <a href="#services" class="mobile-link block px-3 py-2 rounded-md text-base font-medium text-slate-700 hover:text-blue-600 hover:bg-blue-50 transition-colors">Services</a>
+      <a href="#about_us" class="mobile-link block px-3 py-2 rounded-md text-base font-medium text-slate-700 hover:text-blue-600 hover:bg-blue-50 transition-colors">About Us</a>
+      <a href="#contact" class="mobile-link block px-3 py-2 rounded-md text-base font-medium text-slate-700 hover:text-blue-600 hover:bg-blue-50 transition-colors">Contact</a>
       <div class="px-3 py-3">
-        <a href={`tel:${phoneNumber.replace(/[^0-9]/g, '')}`} class="w-full flex items-center justify-center px-4 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 shadow-sm">
+        <a href={`tel:${phoneNumber.replace(/[^0-9]/g, '')}`} class="w-full flex items-center justify-center px-4 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 shadow-sm transition-colors">
           Call {phoneNumber}
         </a>
       </div>
@@ -63,16 +63,26 @@ const phoneNumber = "5000 000 0000";
   const btn = document.getElementById('mobile-menu-btn');
   const menu = document.getElementById('mobile-menu');
   const links = document.querySelectorAll('.mobile-link');
+  let isOpen = false;
 
   if (btn && menu) {
     btn.addEventListener('click', () => {
-      menu.classList.toggle('hidden');
+      isOpen = !isOpen;
+      if (isOpen) {
+        menu.classList.remove('max-h-0', 'opacity-0');
+        menu.classList.add('max-h-96', 'opacity-100');
+      } else {
+        menu.classList.add('max-h-0', 'opacity-0');
+        menu.classList.remove('max-h-96', 'opacity-100');
+      }
     });
 
     // Close menu when a link is clicked
     links.forEach(link => {
       link.addEventListener('click', () => {
-        menu.classList.add('hidden');
+        isOpen = false;
+        menu.classList.add('max-h-0', 'opacity-0');
+        menu.classList.remove('max-h-96', 'opacity-100');
       });
     });
   }
